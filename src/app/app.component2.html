@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        
+        <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+          <div class="form-group">
+            <label>UserName</label>
+            <input type="text"  class="form-control" formControlName="name">
+            <small *ngIf="!myForm.controls.name.valid" class="text-danger">
+                    UserName not valid !
+              </small>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="text" class="form-control" formControlName="password">
+            <small *ngIf="!myForm.controls.password.valid" class="text-danger">
+                password is required.
+              </small>
+          </div>
+          <!--addresses-->
+          <div formArrayName="addresses">
+            <div *ngFor="let address of myForm.controls.addresses.controls; let i=index" class="panel panel-default">
+              <div class="panel-heading">
+                <span>Address {{i + 1}}</span>
+                <span class="glyphicon glyphicon-remove pull-right" *ngIf="myForm.controls.addresses.controls.length > 1" (click)="removeAddress(i)"></span>
+              </div>
+              <div class="panel-body" [formGroupName]="i">
+                <div class="form-group col-xs-6">
+                  <label>Address1</label>
+                  <input type="text" class="form-control" formControlName="street">
+                  <small [hidden]="myForm.controls.addresses.controls[i].controls.street.valid" class="text-danger">
+                      Street is required
+                  </small>
+                </div>
+                <div class="form-group col-xs-6">
+                  <label>City</label>
+                  <input type="text" class="form-control" formControlName="address2">
+                  <small [hidden]="myForm.controls.addresses.controls[i].controls.street.valid" class="text-danger">
+                    city is required
+                  </small>
+                </div>
+                <div class="form-group col-xs-6">
+                  <label>State</label>
+                  <input type="text" class="form-control" formControlName="address3">
+                 
+                </div>
+                <div class="form-group col-xs-6">
+                  <label>postcode</label>
+                  <input type="number" class="form-control" formControlName="postcode">
+                  <small [hidden]="myForm.controls.addresses.controls[i].controls.postcode.valid" class="text-danger">
+                    postcode is required
+                </small>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="margin-20">
+            <a (click)="addAddress()" >
+              Add another address +
+            </a>
+          </div>
+  
+          <div class="margin-20">
+            <button type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid">Submit</button>
+          </div>
+          <div class="clearfix"></div>
+  
+          <div class="margin-20">
+            <div>myForm details:-</div>
+            <pre>form value: <br>{{myForm.value | json}}</pre>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
